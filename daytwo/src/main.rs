@@ -1,8 +1,7 @@
-use std::collections::HashSet;
 use std::fs::File;
 use std::io::BufRead;
 use std::io::BufReader;
-use std::io::{Error, ErrorKind};
+use std::io::{Error};
 use std::path::Path;
 
 #[derive(Hash, Eq, PartialEq, Debug)]
@@ -108,14 +107,13 @@ fn main() {
     let path = Path::new("./input");
     let inputs = read_input(path).unwrap();
 
-    // println!("{:?}", inputs);
     // part 1
-    let p = move_ship(&inputs);
-    println!("{:?}", p);
-    println!("{:?}", p.product());
+    let position = move_ship(&inputs);
+    println!("{:?}", position);
+    println!("{:?}", position.product());
 
     // part 2
-    let p_with_aim = move_with_aim(&inputs);
-    println!("{:?}", p_with_aim);
-    println!("{:?}", p_with_aim.product());
+    let position_with_aim = move_with_aim(&inputs);
+    println!("{:?}", position_with_aim);
+    println!("{:?}", position_with_aim.product());
 }
