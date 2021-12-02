@@ -35,26 +35,55 @@ fn read_input(path: &Path) -> Result<Vec<Inputs>, Error> {
 struct Position {
     x: i32,
     y: i32,
+    aim: i32,
 }
 
 impl Position {
     pub fn start() -> Position {
-        return Position { x: 0, y: 0 };
+        return Position { x: 0, y: 0, aim: 0 };
     }
 
-    pub fn move_ship(&mut self, i: &Inputs) {
-
+    fn move_ship(&mut self, i: &Inputs) {
         match i {
-            &Inputs { ref direction, steps: _ } if direction == "forward" => self.x += i.steps,
-            &Inputs { ref direction, steps: _ } if direction == "up" => self.y -= i.steps,
-            &Inputs { ref direction, steps: _ } if direction == "down" => self.y += i.steps,
-            &_ => println!("Error")
+            &Inputs {
+                ref direction,
+                steps: _,
+            } if direction == "forward" => self.x += i.steps,
+            &Inputs {
+                ref direction,
+                steps: _,
+            } if direction == "up" => self.y -= i.steps,
+            &Inputs {
+                ref direction,
+                steps: _,
+            } if direction == "down" => self.y += i.steps,
+            &_ => println!("Error"),
         }
+    }
 
+    fn move_with_aim(&mut self, i: &Inputs) {
+        match i {
+            &Inputs {
+                ref direction,
+                steps: _,
+            } if direction == "forward" => {
+                self.x += i.steps;
+                self.y += i.steps * self.aim;
+            }
+            &Inputs {
+                ref direction,
+                steps: _,
+            } if direction == "up" => self.aim -= i.steps,
+            &Inputs {
+                ref direction,
+                steps: _,
+            } if direction == "down" => self.aim += i.steps,
+            &_ => println!("Error"),
+        }
     }
 
     fn product(self) -> i32 {
-        self.x * self.y 
+        self.x * self.y
     }
 }
 
@@ -67,13 +96,26 @@ fn move_ship(inputs: &Vec<Inputs>) -> Position {
     return pos;
 }
 
+fn move_with_aim(inputs: &Vec<Inputs>) -> Position {
+    let mut pos = Position::start();
+    for i in inputs.iter() {
+        pos.move_with_aim(i);
+    }
+    pos
+}
+
 fn main() {
     let path = Path::new("./input");
     let inputs = read_input(path).unwrap();
 
     // println!("{:?}", inputs);
-
+    // part 1
     let p = move_ship(&inputs);
     println!("{:?}", p);
     println!("{:?}", p.product());
+
+    // part 2
+    let p_with_aim = move_with_aim(&inputs);
+    println!("{:?}", p_with_aim);
+    println!("{:?}", p_with_aim.product());
 }
