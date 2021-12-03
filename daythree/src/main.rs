@@ -36,11 +36,24 @@ fn gamma_rate(v : &Vec<String>) -> i32 {
         }
     }
 
-    set_max = 
+    // set_max = 
+    let mut max : Vec<char> = Vec::new();
+    let mut min : Vec<char> = Vec::new();
 
     for h in vhm {
         println!("{:?}",h);
+
+        if h[&'0'] > h[&'1'] {
+            max.push('0');
+            min.push('1')
+        } else {
+            max.push('1');
+            min.push('0')
+        }
     }
+
+    println!("{:?}", max);
+    println!("{:?}", min);
 
     let gamma : i32 = 0;
     return gamma
