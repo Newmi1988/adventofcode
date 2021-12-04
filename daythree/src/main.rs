@@ -19,7 +19,7 @@ fn read_input(path: &Path) -> Result<Vec<String>, Error> {
     Ok(v)
 }
 
-fn get_binary_position_counts(v: &Vec<String>) -> Vec<HashMap<char,i32>> {
+fn get_binary_position_counts(v: &Vec<String>) -> Vec<HashMap<char, i32>> {
     let mut vhm = Vec::new();
     let string_length = v.first().unwrap().len();
     for _ in 0..string_length {
@@ -35,20 +35,16 @@ fn get_binary_position_counts(v: &Vec<String>) -> Vec<HashMap<char,i32>> {
         }
     }
 
-    return vhm
+    return vhm;
 }
 
 fn binary_diagnostic(v: &Vec<String>) -> i32 {
     let vhm = get_binary_position_counts(v);
-    // println!("{:?}", vhm);
 
-    // set_max =
     let mut max: Vec<char> = Vec::new();
     let mut min: Vec<char> = Vec::new();
 
     for h in vhm {
-        // println!("{:?}", h);
-
         if h[&'0'] > h[&'1'] {
             max.push('0');
             min.push('1')
@@ -61,56 +57,41 @@ fn binary_diagnostic(v: &Vec<String>) -> i32 {
     let max_str: String = max.into_iter().collect();
     let min_str: String = min.into_iter().collect();
 
-
     let gamma: i32 = i32::from_str_radix(&max_str, 2).unwrap();
     let epsilon: i32 = i32::from_str_radix(&min_str, 2).unwrap();
-
-    println!("{}", gamma);
-    println!("{}", epsilon);
 
     return gamma * epsilon;
 }
 
-fn co_two_scrubber_rating(v : &mut Vec<String>) -> i32 {
-    let vhm = get_binary_position_counts(v);
-
-    // println!("{:?}", vhm);
-
+fn co_two_scrubber_rating(v: &mut Vec<String>) -> i32 {
     let oxygen = v;
     let mut co2scrub = oxygen.clone();
-    // use the counts to sort the values into 
-    for (i,h) in vhm.iter().enumerate() {
+    // use the counts to sort the values into
+    for i in 0..oxygen.first().unwrap().len() {
+        let oxy_vhm = get_binary_position_counts(oxygen);
+        let co2_vhm = get_binary_position_counts(&co2scrub);
 
-        // println!("{} - {:?}",i,h);
-
-        let mut max : char = '0';
-        let mut min : char = '1';
-        if h[&'0'] < h[&'1'] {
-            max = '1';
-            min = '0';
+        let mut oxy_idc: char = '1';
+        let mut co2_idc: char = '1';
+        if oxy_vhm[i][&'0'] > oxy_vhm[i][&'1'] {
+            oxy_idc = '0'
         }
-        
+        if co2_vhm[i][&'0'] <= co2_vhm[i][&'1'] {
+            co2_idc = '0'
+        }
+
         if oxygen.len() > 1 {
-            oxygen.retain(|x| x.chars().nth(i).unwrap() == max);
+            oxygen.retain(|x| x.chars().nth(i).unwrap() == oxy_idc);
         }
         if co2scrub.len() > 1 {
-            co2scrub.retain(|x| x.chars().nth(i).unwrap() == min);
+            co2scrub.retain(|x| x.chars().nth(i).unwrap() == co2_idc);
         }
-        // println!("{:?}",oxygen);
     }
 
-    // println!("{}", oxygen[0]);
-    // println!("{}", co2scrub[0]);
-    println!("{}",oxygen[0]);
-    println!("{}",co2scrub[0]);
+    let oxygen_value: i32 = i32::from_str_radix(&oxygen[0], 2).unwrap();
+    let co2scrub_value: i32 = i32::from_str_radix(&co2scrub[0], 2).unwrap();
 
-    let oxygen_value : i32 = i32::from_str_radix(&oxygen[0],2).unwrap();
-    let co2scrub_value : i32 = i32::from_str_radix(&co2scrub[0],2).unwrap();
-
-    println!("{}", oxygen_value);
-    println!("{}", co2scrub_value);
-    
-    return oxygen_value*co2scrub_value
+    return oxygen_value * co2scrub_value;
 }
 
 fn main() {
@@ -123,5 +104,5 @@ fn main() {
 
     // part 2
     let j = co_two_scrubber_rating(&mut inputs);
-    println!("Part 2: {}",j);
+    println!("Part 2: {}", j);
 }
