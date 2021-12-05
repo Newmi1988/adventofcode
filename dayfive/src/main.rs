@@ -1,3 +1,4 @@
+use std::collections::HashMap;
 use std::fs::File;
 use std::io::BufRead;
 use std::io::BufReader;
@@ -38,10 +39,35 @@ fn read_input(path: &Path) -> Result<Vec<Line>, Error> {
     
 }
 
+fn part1(lines : &mut Vec<Line>) -> i32 {
+    lines.retain(|line| {
+        line.start.x == line.end.x || line.start.y == line.end.y
+    });
+
+    let points : HashMap<Position,i32> = HashMap::new();
+    for line in lines {
+
+        println!("{:?}", line);
+
+        // get direction
+
+        // add counts to position
+
+    
+    }
+
+    // count entries higher than 2 and sum them
+
+    12_i32
+}
+
 fn main() {
     let path = Path::new("./input");
-    let s = read_input(path).unwrap();
+    let mut lines = read_input(path).unwrap();
 
-    println!("{:?}", s);
+    // println!("{:?}", lines);
+
+    // part 1
+    part1(&mut lines);
     
 }
