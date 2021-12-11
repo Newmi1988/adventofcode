@@ -16,8 +16,8 @@ fn read_input(path: &Path) -> Result<Vec<i32>, Error> {
     Ok(inputs)
 }
 
-fn make_fish(input: &Vec<i32>, days : i32) -> usize {
-    let mut age_counts = [0;9];
+fn make_fish(input: &Vec<i32>, days: i32) -> usize {
+    let mut age_counts = [0; 9];
 
     for age in input {
         age_counts[*age as usize] += 1;
@@ -25,8 +25,10 @@ fn make_fish(input: &Vec<i32>, days : i32) -> usize {
 
     println!("Initial age counts {:?}", age_counts);
 
+    // instead of extending the array rotate through it
     for _ in 1..=days {
         age_counts.rotate_left(1);
+        // add the numbers of fish with delay of 2 to slot 6 (i will totally forget about this logic later...)
         age_counts[6] += age_counts[8];
     }
 
