@@ -42,10 +42,25 @@ fn read_input(path : &Path) -> Result<(Vec<Vec<String>>,Vec<Vec<String>>),Error>
     Ok((inputs, outputs))
 }
 
-fn part1(signal : Vec<Vec<String>>) -> Vec<u32> {
+fn part1(signal : Vec<Vec<String>>) -> u32 {
 
-    let a : Vec<u32> = vec![1,2,3];
-    a
+    let mut count : u32 = 0;
+
+    for output in signal {
+        for text in output {
+            match text.len() {
+                7 => count+=1 ,
+                4=> count+=1,
+                3 => count+=1,
+                2=> count+=1,
+                _ => continue
+            }
+        }
+    }
+
+    // let a : Vec<u32> = vec![1,2,3];
+    // a
+    count
 }
 
 fn main() {
@@ -58,4 +73,7 @@ fn main() {
     };
 
     println!("{:?}", i);
+
+    let result_part_one = part1(o);
+    println!("{}",result_part_one);
 }
