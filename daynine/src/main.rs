@@ -40,6 +40,6 @@ fn main() {
 
     let path = Path::new("./input");
 
-    let i = read_input(path);
+    let i: Result<i32, Error> = read_input(path);
 
 }
