@@ -63,9 +63,10 @@ fn part1(heightmap: &Vec<Vec<u32>>) -> u32 {
                 }
             }
 
-            
-            let window_min = search_window.values().min().unwrap();            
-            if current_position_value == *window_min && search_window.values().max().unwrap() != window_min {
+            let window_min = search_window.values().min().unwrap();
+            if current_position_value == *window_min
+                && search_window.values().max().unwrap() != window_min
+            {
                 println!("{:?}", search_window);
                 println!("Minimum found : {}", current_position_value);
                 found_minumum.push(current_position_value)
@@ -89,6 +90,11 @@ fn main() {
         panic!("Could read input file")
     };
 
+    let part_one_time = Instant::now();
     let part_one_result: u32 = part1(&input_heightmap);
-    println!("Result Part 1: {}", part_one_result);
+    println!(
+        "Result Part 1: {} ({}µs)",
+        part_one_result,
+        part_one_time.elapsed().as_micros()
+    );
 }
